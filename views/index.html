@@ -1,8 +1,11 @@
 {{ template "layout" .}}
 
 {{ define "main" }}
-<div class="text">
-    Current progress:
-    {{ .content }}
-</div>
+
+{{ range . }}
+    <div class="text box-with-shadow">
+        Name: {{ .Name }} - {{ .Price }} - {{ .StockStatus }}
+    </div>
+{{ end }}
+
 {{ end }}

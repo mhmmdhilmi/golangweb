@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"golangweb/entity"
 	"html/template"
 	"log"
 	"net/http"
@@ -26,10 +27,20 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// dynamic data, for this case we use static example to be parse to HTML
-	data := map[string]string{
-		"title":   "Golang Web",
-		"content": "Building the backend . . .",
+	// dynamic data, using map to be parse to HTML
+	// data := map[string]string{
+	// 	"title":   "Golang Web",
+	// 	"content": "Building the backend . . .",
+	// }
+
+	// store data to struct for parsing to HTML
+	// data := entity.Product{ID: 1, Name: "Mobilio", Price: 220000000, Stock: 9}
+
+	// slice of struct
+	data := []entity.Product{
+		{ID: 1, Name: "Mobilio", Price: 220000000, Stock: 9},
+		{ID: 1, Name: "Xpander", Price: 270000000, Stock: 9},
+		{ID: 1, Name: "Pajero Sport", Price: 500000000, Stock: 99},
 	}
 
 	tmpl.Execute(w, data)
@@ -68,7 +79,7 @@ func ProdutHandler(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "Product id : %d", idNumb)
 
 	// change from fmt.Fprintf to HTML view
-	// Store data to map for parsing
+	// Store data to map for parsing HTML
 	data := map[string]interface{}{
 		"content": idNumb,
 	}
