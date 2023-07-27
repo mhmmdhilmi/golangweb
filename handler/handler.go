@@ -101,3 +101,78 @@ func ProdutHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func PostGet(w http.ResponseWriter, r *http.Request) {
+	method := r.Method
+
+	switch method {
+	case "GET":
+		w.Write([]byte("It was GET"))
+	case "POST":
+		w.Write([]byte("It was POST"))
+	default:
+		http.Error(w, "Error is happening, keep calm", http.StatusBadRequest)
+	}
+}
+
+func Form(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+
+		// load HTML file
+		tmpl, err := template.ParseFiles(path.Join("views", "form.html"), path.Join("views", "layout.html"))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		// Render the template with the data
+		tmpl.Execute(w, nil)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		return
+	}
+}
+
+func Process(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		name := r.Form.Get("name")
+		message := r.Form.Get("message")
+
+		data := map[string]interface{}{
+			"name":    name,
+			"message": message,
+		}
+
+		// load HTML file
+		tmpl, err := template.ParseFiles(path.Join("views", "result.html"), path.Join("views", "layout.html"))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		// Render the template with the data
+		tmpl.Execute(w, data)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		return
+	}
+
+	http.Error(w, "Error is happening, keep calm", http.StatusInternalServerError)
+}

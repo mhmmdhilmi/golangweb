@@ -20,6 +20,8 @@ Material covered
 10. Template/View Function (move the if logic in html to function)
 11. Using Static File (create and load css file)
 12. HTTP GET & POST
+13. HTML Form
+14. Process Data form
 */
 
 func main() {
@@ -30,7 +32,10 @@ func main() {
 	mux.HandleFunc("/", handler.HomeHandler) //root
 	mux.HandleFunc("/hello", handler.HelloHandler)
 	mux.HandleFunc("/mario", handler.MarioHandler)
-	mux.HandleFunc("/product", handler.ProdutHandler) // query string case
+	mux.HandleFunc("/product", handler.ProdutHandler) //query string case
+	mux.HandleFunc("/post-get", handler.PostGet)      //HTTP GET & POST
+	mux.HandleFunc("/form", handler.Form)             //HTML Form
+	mux.HandleFunc("/process", handler.Process)       //process Form
 
 	// load static file (in this case load the css)
 	fileServer := http.FileServer(http.Dir("assets"))
